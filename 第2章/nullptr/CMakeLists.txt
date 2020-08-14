@@ -8,7 +8,7 @@ SET(CMAKE_CXX_COMPILER /usr/bin/g++)
 #设置编译采用的C++标准的版本
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a")
 
-project(1.1nullptr VERSION 0.1.0)
+project(2.1nullptr VERSION 0.1.0)
 
-add_executable(1.1nullptr 1.1nullptr.cpp)
+add_executable(2.1nullptr 2.1nullptr.cpp)
 
