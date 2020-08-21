@@ -18,7 +18,8 @@ project(regex_for_server VERSION 0.1.0)
 # 查找第三方库 
 # REQUIRED：表示该库没找到就直接使cmake失败
 # COMPONENTS * *：表示后面这些是库里面具体要加载模块组件
-find_package(Boost 1.71.0 REQUIRED)
+find_package(Boost REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 # 判断是否找到了第三方库 
 if(Boost_FOUND)  # XXX_FOUND(此处是Boost_FOUND)表示XXX库是否被找到了
@@ -27,9 +28,22 @@ if(Boost_FOUND)  # XXX_FOUND(此处是Boost_FOUND)表示XXX库是否被找到了
 else()
     message (FATAL_ERROR "Cannot find Boost")  # FATAL_ERROR会错误终止cmake
 endif()
+if(OPENSSL_FOUND)  # XXX_FOUND(此处是Boost_FOUND)表示XXX库是否被找到了
+    message ("openssl found")  # 输出消息
+    include_directories(${OPENSSL_INCLUDE_DIR})  # 包含已经找到的库的头文件(此处是openssl的头文件)
+else()
+    message (FATAL_ERROR "Cannot find openssl")  # FATAL_ERROR会错误终止cmake
+endif()
 
 add_executable(regex_for_server main.http.cpp)
 
+target_link_libraries( regex_for_server 
+    ${Boost_LIBRARIES} 
+)
+
 add_executable(regex_for_server_https main.https.cpp)
 
-target_link_libraries( regex_for_server ${Boost_LIBRARIES} )
+target_link_libraries( regex_for_server_https 
+    ${OPENSSL_LIBRARIES}
+    ${Boost_LIBRARIES} 
+)
